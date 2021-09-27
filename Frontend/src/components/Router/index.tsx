@@ -15,7 +15,7 @@ const Router: React.FC = () => {
     if (localStorage.getItem("token")) {
       checkAuth();
     }
-  }, []);
+  }, [checkAuth]);
 
   // if (isLoading) {
   //   return <div>Загрузка...</div>

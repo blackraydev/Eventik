@@ -6,12 +6,14 @@ export enum CLIENT_ERRORS {
 
 export enum API_ERRORS {
   WRONG_CREDENTIALS = 'Login or password is incorrect! Please try again.',
+  EMAIL_EXIST = 'User with this email already exist! Please try another email.',
   UNAUTHORIZED = 'You have no access to private content, please authorize.',
   SOMETHING_WENT_WRONG = 'Something went wrong... Please refresh the page.',
 };
 
 export enum ERROR_STATUS_CODES {
-  BAD_REQUEST = 400,
-  UNAUTHORIZED = 401,
-  NOT_FOUND = 404,
+  BAD_REQUEST_LOGIN = "400/LOGIN",
+  BAD_REQUEST_REGISTRATION = "400/REGISTRATION",
+  UNAUTHORIZED = "401",
+  NOT_FOUND = "404",
 }

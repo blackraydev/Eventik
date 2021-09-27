@@ -24,10 +24,12 @@ export const login = (email: string, password: string) => async (
     dispatch(requestEnd());    
   }
   catch (e: any) {
-    const statusCode = e.response.status;
+    const statusCode = e.response?.status;
 
-    dispatch(setNotification(getErrorByStatusCode(statusCode), NotificationTypes.ERROR));
-    dispatch(showNotification());
+    if (statusCode && statusCode == 400) {
+      dispatch(setNotification(getErrorByStatusCode(statusCode + "/LOGIN"), NotificationTypes.ERROR));
+      dispatch(showNotification());
+    }
 
     dispatch(rejectData());
   }
@@ -46,8 +48,14 @@ export const register = (email: string, password: string) => async (
 
     dispatch(requestEnd());    
   }
-  catch (e) {
-    console.log(e);
+  catch (e: any) {
+    const statusCode = e.response?.status;
+
+    if (statusCode && statusCode == 400) {
+      dispatch(setNotification(getErrorByStatusCode(statusCode + "/REGISTRATION"), NotificationTypes.ERROR));
+      dispatch(showNotification());
+    }
+    
     dispatch(rejectData());
   }
 };
