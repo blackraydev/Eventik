@@ -2,16 +2,15 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import LoginBlock from '../../../components/AuthComponents/LoginBlock';
 import { useActions } from '../../../hooks/useActions';
-import AuthLayout from '../../../layouts/AuthLayout';
-import { authCheckSelector, authLoadingSelector } from '../../../store/Auth/selectors';
+import PublicLayout from '../../../layouts/PublicLayout';
+import { authLoadingSelector } from '../../../store/Auth/selectors';
 import { notificationContentSelector, notificationShowSelector } from '../../../store/Notification/selectors';
 import Notification from '../../../UI/Notification';
 
-interface ILoginPageProps {}
+interface ILoginContainerProps {}
 
-const LoginPage: React.FC<ILoginPageProps> = () => {
+const LoginContainer: React.FC<ILoginContainerProps> = () => {
   const { login, setNotification, showNotification, closeNotification } = useActions();
-  const isAuth = useSelector(authCheckSelector);
   const isAuthLoading = useSelector(authLoadingSelector);
   const notificationContent = useSelector(notificationContentSelector);
   const toShowNotification = useSelector(notificationShowSelector);
@@ -21,10 +20,7 @@ const LoginPage: React.FC<ILoginPageProps> = () => {
     setNotification,
     showNotification,
     closeNotification,
-    isAuth,
     isAuthLoading,
-    notificationContent,
-    toShowNotification
   };
 
   const notificationProps = {
@@ -33,11 +29,11 @@ const LoginPage: React.FC<ILoginPageProps> = () => {
   };
 
   return(
-    <AuthLayout>
+    <PublicLayout>
       { toShowNotification && <Notification {...notificationProps}/> }
       <LoginBlock {...props} />
-    </AuthLayout>
+    </PublicLayout>
   );
 };
 
-export default LoginPage;
+export default LoginContainer;

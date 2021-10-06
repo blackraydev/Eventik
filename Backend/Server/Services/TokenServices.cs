@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -67,11 +68,20 @@ namespace Server.Services {
         public string GenerateAccessToken(User user) {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_securityKeys.AccessToken);
+            var expirationTime = 30;
+            var claimsDictionary = new Dictionary<string, object>();
+            
+            var claims = new Claim[] {
+                new Claim(ClaimTypes.Name, user.Email)
+            };
+            
+            foreach (var claim in claims) {
+                claimsDictionary.Add(claim.Type, claim.Value);
+            }
+            
             var tokenDescriptor = new SecurityTokenDescriptor {
-                Subject = new ClaimsIdentity(new Claim[] {
-                    new Claim(ClaimTypes.Email, user.Email)
-                }),
-                Expires = DateTime.UtcNow.AddMinutes(30),
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddMinutes(expirationTime),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256Signature)
             };

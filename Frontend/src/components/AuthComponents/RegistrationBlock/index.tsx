@@ -15,49 +15,36 @@ import Input from '../../../UI/Input';
 import LoadingSpinner from '../../../UI/LoadingSpinner';
 
 interface IRegistrationBlockProps {
-  login: (email: string, password: string) => (dispatch: Dispatch) => Promise<void>;
+  register: (email: string, password: string) => (dispatch: Dispatch) => Promise<void>;
   setNotification: (text: string, type: NotificationType) => {};
   showNotification: () => {};
   closeNotification: () => {};
-  isAuth: boolean;
   isAuthLoading: boolean;
-  notificationContent: INotification;
-  toShowNotification: boolean;
 };
 
 const RegistrationBlock: React.FC<IRegistrationBlockProps> = ({
-  login,
+  register,
   setNotification,
   showNotification,
   closeNotification,
-  isAuth,
   isAuthLoading,
-  notificationContent,
-  toShowNotification
 }) => {
   const history = useHistory();
-  const { register } = useActions();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [repeatedPassword, setRepeatedPassword] = useState<string>("");
 
   const isFormHasErrors = useCallback((): boolean => {
     if (!validator.isEmail(email)) {
-      setNotification(CLIENT_ERRORS.INCORRECT_EMAIL, NotificationTypes.WARNING);
-      showNotification();
-      return true;
+      return showWarning(CLIENT_ERRORS.INCORRECT_EMAIL);
     }
 
     if (password.length < 6) {
-      setNotification(CLIENT_ERRORS.PASSWORD_MIN_LENGTH, NotificationTypes.WARNING);
-      showNotification();
-      return true;
+      return showWarning(CLIENT_ERRORS.PASSWORD_MIN_LENGTH);
     }
 
     if (password !== repeatedPassword) {
-      setNotification(CLIENT_ERRORS.PASSWORDS_NOT_MATCH, NotificationTypes.WARNING);
-      showNotification();
-      return true;
+      return showWarning(CLIENT_ERRORS.PASSWORDS_NOT_MATCH);
     }
 
     closeNotification();
@@ -66,10 +53,14 @@ const RegistrationBlock: React.FC<IRegistrationBlockProps> = ({
     email,
     password,
     repeatedPassword,
-    setNotification,
-    showNotification,
-    closeNotification,
+    closeNotification
   ]);
+
+  const showWarning = useCallback((warningMessage): boolean => {
+    setNotification(warningMessage, NotificationTypes.WARNING);
+    showNotification();
+    return true;
+  }, [setNotification, showNotification]);
 
   const registrationHandler = useCallback((): void => {
     if (!isFormHasErrors()) {

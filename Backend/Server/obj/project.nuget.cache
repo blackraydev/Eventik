@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "TUr/Shi6oykp3fzNo0Kf7U5n2rR+0CwwAiUxwKS97BQ+4jZ61zqDfrnKs9MqCj8Yc8pXmfoIy2DjDWazw9Fdww==",
+  "dgSpecHash": "L3CuENywqhr/dIRo0Jwa6xHQ4mr/+q0bht5e0/TzBeAFokhxQv2COJa1/CdIzFv1WMqgyjn4Z4Aqjdd5W+khcA==",
   "success": true,
-  "projectFilePath": "/Applications/MyFiles/Development/Web/Conversik/Backend/Server/Server.csproj",
+  "projectFilePath": "/Applications/MyFiles/Development/Web/Conversik - Social Media App/Backend/Server/Server.csproj",
   "expectedPackageFiles": [
     "/Users/ramilsagidullin/.nuget/packages/bouncycastle.netcore/1.8.5/bouncycastle.netcore.1.8.5.nupkg.sha512",
     "/Users/ramilsagidullin/.nuget/packages/google.protobuf/3.14.0/google.protobuf.3.14.0.nupkg.sha512",

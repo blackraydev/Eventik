@@ -18,10 +18,7 @@ interface ILoginBlockProps {
   setNotification: (text: string, type: NotificationType) => {};
   showNotification: () => {};
   closeNotification: () => {};
-  isAuth: boolean;
   isAuthLoading: boolean;
-  notificationContent: INotification;
-  toShowNotification: boolean;
 };
 
 const LoginBlock: React.FC<ILoginBlockProps> = ({
@@ -29,10 +26,7 @@ const LoginBlock: React.FC<ILoginBlockProps> = ({
   setNotification,
   showNotification,
   closeNotification,
-  isAuth,
-  isAuthLoading,
-  notificationContent,
-  toShowNotification
+  isAuthLoading
 }) => {
   const history = useHistory();
   const [email, setEmail] = useState<string>("");
@@ -40,15 +34,11 @@ const LoginBlock: React.FC<ILoginBlockProps> = ({
 
   const isFormHasErrors = useCallback((): boolean => {
     if (!validator.isEmail(email)) {
-      setNotification(CLIENT_ERRORS.INCORRECT_EMAIL, NotificationTypes.WARNING);
-      showNotification();
-      return true;
+      return showWarning(CLIENT_ERRORS.INCORRECT_EMAIL);
     }
 
     if (password.length < 6) {
-      setNotification(CLIENT_ERRORS.PASSWORD_MIN_LENGTH, NotificationTypes.WARNING);
-      showNotification();
-      return true;
+      return showWarning(CLIENT_ERRORS.PASSWORD_MIN_LENGTH);
     }
 
     closeNotification();
@@ -56,10 +46,14 @@ const LoginBlock: React.FC<ILoginBlockProps> = ({
   }, [
     email,
     password,
-    setNotification,
-    showNotification,
     closeNotification
   ]);
+
+  const showWarning = useCallback((warningMessage): boolean => {
+    setNotification(warningMessage, NotificationTypes.WARNING);
+    showNotification();
+    return true;
+  }, [setNotification, showNotification]);
 
   const loginHandler = useCallback((): void => {
     if (!isFormHasErrors()) {

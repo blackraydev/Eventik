@@ -2,29 +2,25 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import RegistrationBlock from '../../../components/AuthComponents/RegistrationBlock';
 import { useActions } from '../../../hooks/useActions';
-import AuthLayout from '../../../layouts/AuthLayout';
+import PublicLayout from '../../../layouts/PublicLayout';
 import { authCheckSelector, authLoadingSelector } from '../../../store/Auth/selectors';
 import { notificationContentSelector, notificationShowSelector } from '../../../store/Notification/selectors';
 import Notification from '../../../UI/Notification';
 
-interface IRegistrationPageProps {};
+interface IRegistrationContainerProps {};
 
-const RegistrationPage: React.FC<IRegistrationPageProps> = () => {
-  const { login, setNotification, showNotification, closeNotification } = useActions();
-  const isAuth = useSelector(authCheckSelector);
+const RegistrationContainer: React.FC<IRegistrationContainerProps> = () => {
+  const { register, setNotification, showNotification, closeNotification } = useActions();
   const isAuthLoading = useSelector(authLoadingSelector);
   const notificationContent = useSelector(notificationContentSelector);
   const toShowNotification = useSelector(notificationShowSelector);
 
   const props = {
-    login,
+    register,
     setNotification,
     showNotification,
     closeNotification,
-    isAuth,
     isAuthLoading,
-    notificationContent,
-    toShowNotification
   };
 
   const notificationProps = {
@@ -33,11 +29,11 @@ const RegistrationPage: React.FC<IRegistrationPageProps> = () => {
   };
 
   return(
-    <AuthLayout>
+    <PublicLayout>
       { toShowNotification && <Notification {...notificationProps}/> }
       <RegistrationBlock {...props} />
-    </AuthLayout>
+    </PublicLayout>
   );
 };
 
-export default RegistrationPage;
+export default RegistrationContainer;

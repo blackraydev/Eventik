@@ -12,10 +12,8 @@ const Router: React.FC = () => {
   const isLoading = useSelector(authLoadingSelector);
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
       checkAuth();
-    }
-  }, [checkAuth]);
+  }, []);
 
   // if (isLoading) {
   //   return <div>Загрузка...</div>

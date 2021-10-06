@@ -4,11 +4,11 @@ import NavBar from '../../components/UserComponents/Layout/NavBar';
 import UserCell from '../../components/UserComponents/Layout/UserCell';
 import * as UI from './styles';
 
-interface IUserLayoutProps {
+interface IPrivateLayoutProps {
   children: any;
 }
 
-const UserLayout: React.FC<IUserLayoutProps> = ({ children }) => {
+const PrivateLayout: React.FC<IPrivateLayoutProps> = ({ children }) => {
   return(
     <UI.Layout>
       <Header />
@@ -28,4 +28,4 @@ const UserLayout: React.FC<IUserLayoutProps> = ({ children }) => {
   );
 };
 
-export default UserLayout;
+export default PrivateLayout;

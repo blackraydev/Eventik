@@ -32,6 +32,6 @@ api.interceptors.response.use((config: AxiosResponse) => {
   }
 
   throw error;
-})
+});
 
 export default api;

@@ -1,26 +1,26 @@
 import React from 'react';
 import PersonalData from '../../../components/UserComponents/Profile/PersonalData';
 import Photo from '../../../components/UserComponents/Profile/Photo';
-import UserLayout from '../../../layouts/UserLayout';
+import PrivateLayout from '../../../layouts/PrivateLayout';
 import * as UI from './styles';
 
-interface IProfilePageProps {}
+interface IProfileContainerProps {}
 
-const ProfilePage: React.FC<IProfilePageProps> = () => {
+const ProfileContainer: React.FC<IProfileContainerProps> = () => {
   const props = {
 
   };
 
   return(
-    <UserLayout>
+    <PrivateLayout>
       <UI.LeftPart>
         <Photo></Photo>
       </UI.LeftPart>
       <UI.RightPart>
         <PersonalData></PersonalData>
       </UI.RightPart>
-    </UserLayout>
+    </PrivateLayout>
   );
 };
 
-export default ProfilePage;
+export default ProfileContainer;

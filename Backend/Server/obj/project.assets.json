@@ -1989,11 +1989,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Applications/MyFiles/Development/Web/Conversik/Backend/Server/Server.csproj",
+      "projectUniqueName": "/Applications/MyFiles/Development/Web/Conversik - Social Media App/Backend/Server/Server.csproj",
       "projectName": "Server",
-      "projectPath": "/Applications/MyFiles/Development/Web/Conversik/Backend/Server/Server.csproj",
+      "projectPath": "/Applications/MyFiles/Development/Web/Conversik - Social Media App/Backend/Server/Server.csproj",
       "packagesPath": "/Users/ramilsagidullin/.nuget/packages/",
-      "outputPath": "/Applications/MyFiles/Development/Web/Conversik/Backend/Server/obj/",
+      "outputPath": "/Applications/MyFiles/Development/Web/Conversik - Social Media App/Backend/Server/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/ramilsagidullin/.nuget/NuGet/NuGet.Config"
