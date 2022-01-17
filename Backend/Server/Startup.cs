@@ -29,13 +29,14 @@ namespace Server {
             services.AddControllers();
             services.AddCors(options => 
                 options.AddPolicy("Policy", builder =>
-                    builder.WithOrigins("http://localhost:3000")
+                    builder
+                        .WithOrigins("http://localhost:3000")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials()
                 )
             );
-            services.AddDbContext<AppDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("Default")));
+            services.AddDbContext<AppDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("Default")));
             services.AddTransient<IUserServices, UserServices>();
             services.AddTransient<ITokenServices, TokenServices>();
             services.Configure<SecurityKeys>(Configuration.GetSection("SecurityKeys"));

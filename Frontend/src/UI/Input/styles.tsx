@@ -1,49 +1,47 @@
 import styled, { css } from 'styled-components';
-import colors from '../../constants/colors';
+import { COLORS } from '../../constants/colors';
 
 interface IInputHolderStyleProps {
   withoutMargin?: boolean;
 }
 
 export const Input = styled.input`
-  transition: .25s;
+  transition: 0.25s;
   width: 100%;
   font-size: 16px;
   padding: 15px;
   border-radius: 15px;
   background: inherit;
-  border: 1px solid ${colors.gray};
-  color: ${colors.white};
+  border: 1px solid ${COLORS.GRAY};
+  color: ${COLORS.WHITE};
 
   &:focus {
-    border: 1px solid ${colors.pink};
+    border: 1px solid ${COLORS.PINK};
   }
 
   &::placeholder {
-    color: ${colors.gray};
+    color: ${COLORS.GRAY};
   }
 `;
 
-export const InputHolder = styled.div`
+export const InputHolder = styled.div<IInputHolderStyleProps>`
   width: 100%;
 
-  ${({ withoutMargin }: IInputHolderStyleProps) => 
+  ${({ withoutMargin }: IInputHolderStyleProps) =>
     !withoutMargin &&
     css`
       margin-bottom: 25px;
-    `
-  }
+    `}
 
   ${Input} {
-    ${({ withoutMargin }: IInputHolderStyleProps) => 
+    ${({ withoutMargin }: IInputHolderStyleProps) =>
       !withoutMargin &&
       css`
         margin-top: 10px;
-      `
-    }
+      `}
   }
 `;
 
 export const Label = styled.p`
-  color: ${colors.paragraph};
+  color: ${COLORS.PARAGRAPH};
 `;

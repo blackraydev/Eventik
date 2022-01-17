@@ -4,7 +4,6 @@ import validator from 'validator';
 import { useHistory } from 'react-router';
 import { PublicRoutes } from '../../../constants/routeNames';
 import { ChangeEvent } from '../../../types/eventTypes';
-import { INotification } from '../../../models/INotification';
 import { NotificationType } from '../../../types/notificationType';
 import { CLIENT_ERRORS } from '../../../constants/errors';
 import { NotificationTypes } from '../../../constants/notifications';
@@ -19,18 +18,32 @@ interface ILoginBlockProps {
   showNotification: () => {};
   closeNotification: () => {};
   isAuthLoading: boolean;
-};
+}
 
 const LoginBlock: React.FC<ILoginBlockProps> = ({
   login,
   setNotification,
   showNotification,
   closeNotification,
-  isAuthLoading
+  isAuthLoading,
 }) => {
   const history = useHistory();
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
+  const setEmailHandler = useCallback(
+    (e: ChangeEvent) => {
+      setEmail(e.currentTarget.value);
+    },
+    [email]
+  );
+
+  const setPasswordHandler = useCallback(
+    (e: ChangeEvent) => {
+      setPassword(e.currentTarget.value);
+    },
+    [password]
+  );
 
   const isFormHasErrors = useCallback((): boolean => {
     if (!validator.isEmail(email)) {
@@ -43,54 +56,41 @@ const LoginBlock: React.FC<ILoginBlockProps> = ({
 
     closeNotification();
     return false;
-  }, [
-    email,
-    password,
-    closeNotification
-  ]);
+  }, [email, password]);
 
   const showWarning = useCallback((warningMessage): boolean => {
     setNotification(warningMessage, NotificationTypes.WARNING);
     showNotification();
     return true;
-  }, [setNotification, showNotification]);
+  }, []);
 
   const loginHandler = useCallback((): void => {
     if (!isFormHasErrors()) {
       login(email, password);
     }
-  }, [isFormHasErrors, login, email, password]);
+  }, [email, password]);
 
   const authTypeHandler = useCallback((): void => {
     history.push(PublicRoutes.REGISTRATION);
-  }, [history]);
+  }, []);
 
-  return(
-    <Block 
-      title="Sign in" 
+  return (
+    <Block
+      title="Sign in"
       description="Login into system to manage your account."
       outerText="Don't have an account?"
       innerText="Sign up"
       authTypeHandler={authTypeHandler}
     >
-      <Input
-        value={email}
-        onChange={(e: ChangeEvent) => setEmail(e.currentTarget.value)}
-        label="Your Login"
-        placeholder="Email or nickname"
-      />
+      <Input value={email} onChange={setEmailHandler} label="Your Email" placeholder="Email or nickname" />
       <Input
         value={password}
-        onChange={(e: ChangeEvent) => setPassword(e.currentTarget.value)}
+        onChange={setPasswordHandler}
         label="Your Password"
         placeholder="Password"
         type="password"
       />
-      {
-        isAuthLoading
-          ? <LoadingSpinner />
-          : <Button value="Sign in" onClick={loginHandler}/>
-      }
+      {isAuthLoading ? <LoadingSpinner /> : <Button value="Sign in" onClick={loginHandler} />}
     </Block>
   );
 };

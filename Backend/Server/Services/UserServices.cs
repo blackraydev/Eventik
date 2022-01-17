@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
@@ -64,6 +65,31 @@ namespace Server.Services {
 
         public async Task<RefreshToken> Logout(string refreshToken) {
             return await _tokenServices.DeleteToken(refreshToken);
+        }
+
+        public List<User> GetPeople(PeopleRequest peopleRequest) {
+            var users = _dbContext.Users.ToList().FindAll(user => user.Id != peopleRequest.Id);
+            return users;
+        }
+        
+        public async Task<AuthResponse> Verify(User user) {
+            var existedUser = await _dbContext.Users.SingleOrDefaultAsync(x => x.Login == user.Login);
+            
+            if (existedUser != null) return null;
+
+            var currentUser = await _dbContext.Users.SingleOrDefaultAsync(x => x.Email == user.Email);
+
+            currentUser.Login = user.Login;
+            currentUser.Name = user.Name;
+            currentUser.LastName = user.LastName;
+            currentUser.isVerified = true;
+
+            var accessToken = _tokenServices.GenerateAccessToken(user);
+            var refreshToken = _tokenServices.GenerateRefreshToken();
+            
+            await _tokenServices.SaveToken(currentUser.Id, refreshToken);
+
+            return new AuthResponse(currentUser, accessToken, refreshToken);
         }
     }
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ChangeEvent } from '../../../../types/eventTypes';
 import Input from '../../../../UI/Input';
-import CoursikLogoIcon from '../../../Icons/CoursikLogoIcon';
+import EventikLogoIcon from '../../../Icons/EventikLogoIcon';
 import * as UI from './styles';
 
 interface IHeaderProps {}
@@ -9,17 +9,15 @@ interface IHeaderProps {}
 const Header: React.FC<IHeaderProps> = () => {
   const [searchValue, setSearchValue] = useState<string>('');
 
-  return(
+  return (
     <UI.Header>
       <UI.LeftPart>
         <UI.LogoHolder>
-          <UI.Logo>{CoursikLogoIcon}</UI.Logo>
-          <UI.AppTitle>Conversik</UI.AppTitle>
+          <UI.Logo>{EventikLogoIcon}</UI.Logo>
+          <UI.AppTitle>Eventik</UI.AppTitle>
         </UI.LogoHolder>
       </UI.LeftPart>
-      <UI.MiddlePart>
-
-      </UI.MiddlePart>
+      <UI.MiddlePart></UI.MiddlePart>
       <UI.RightPart>
         <Input
           value={searchValue}

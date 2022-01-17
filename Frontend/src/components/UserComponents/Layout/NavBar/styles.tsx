@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import colors from '../../../../constants/colors';
+import { COLORS } from '../../../../constants/colors';
 
 export const NavBar = styled.div`
   overflow: hidden;
@@ -7,7 +7,7 @@ export const NavBar = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  background: ${colors.secondary};
+  background: ${COLORS.SECONDARY};
   width: 300px;
   border-radius: 25px;
   margin-top: 25px;

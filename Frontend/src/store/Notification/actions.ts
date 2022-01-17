@@ -1,21 +1,21 @@
-import { ACTIONS } from "../../constants/redux";
-import { NotificationType } from "../../types/notificationType";
+import { NotificationType } from '../../types/notificationType';
+import { NOTIFICATION_ACTIONS } from './constants';
 
 export const setNotification = (text: string, type: NotificationType) => ({
-  type: ACTIONS.SET_NOTIFICATION,
-  payload: { text, type }
+  type: NOTIFICATION_ACTIONS.SET_NOTIFICATION,
+  payload: { text, type },
 });
 
 export const showNotification = () => ({
-  type: ACTIONS.SHOW_NOTIFICATION
+  type: NOTIFICATION_ACTIONS.SHOW_NOTIFICATION,
 });
 
 export const closeNotification = () => ({
-  type: ACTIONS.CLOSE_NOTIFICATION
+  type: NOTIFICATION_ACTIONS.CLOSE_NOTIFICATION,
 });
 
 export default {
   setNotification,
   showNotification,
-  closeNotification
+  closeNotification,
 };

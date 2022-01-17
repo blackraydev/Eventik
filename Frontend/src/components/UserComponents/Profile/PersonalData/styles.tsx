@@ -1,12 +1,12 @@
-import styled from "styled-components";
-import colors from "../../../../constants/colors";
+import styled from 'styled-components';
+import { COLORS } from '../../../../constants/colors';
 
 export const PersonalDataHolder = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: ${colors.secondary};
+  background-color: ${COLORS.SECONDARY};
   border-radius: 25px;
   padding: 25px;
   width: 100%;
@@ -19,8 +19,6 @@ export const Header = styled.div`
   align-items: center;
   width: 100%;
   padding-bottom: 15px;
-  margin-bottom: 15px;
-  border-bottom: 1px solid ${colors.background};
 `;
 
 export const HeaderTopPart = styled.div`
@@ -32,7 +30,7 @@ export const HeaderTopPart = styled.div`
 `;
 
 export const HeaderBottomPart = styled.div`
-  transition: .25s;
+  transition: 0.25s;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -43,22 +41,27 @@ export const HeaderBottomPart = styled.div`
   border-radius: 10px;
 
   &:hover {
-    background-color: ${colors.lightSecondary};
+    background-color: ${COLORS.LIGHT_SECONDARY};
   }
 `;
 
 export const UserName = styled.p`
-  color: ${colors.white};
+  color: ${COLORS.WHITE};
   font-size: 20px;
 `;
 
 export const UserConnectionStatus = styled.span`
   font-size: 14px;
-  color: ${colors.lightGray};
+  color: ${COLORS.LIGHT_GRAY};
 `;
 
 export const UserProfileStatus = styled.p`
-  color: ${colors.brightWhite};
+  color: ${COLORS.BRIGHT_WHITE};
+  font-size: 16px;
+`;
+
+export const UserProfileStatusEmpty = styled.p`
+  color: ${COLORS.GRAY};
   font-size: 16px;
 `;
 
@@ -68,6 +71,8 @@ export const MainContent = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
+  padding-top: 15px;
+  border-top: 1px solid ${COLORS.BACKGROUND};
 `;
 
 export const InformationPoint = styled.div`
@@ -80,15 +85,14 @@ export const InformationPoint = styled.div`
 `;
 
 export const InformationText = styled.p`
-  color: ${colors.lightGray};
+  color: ${COLORS.LIGHT_GRAY};
   margin-left: 5px;
   margin-right: 15px;
 `;
 
 export const InformationData = styled.span`
-  color: ${colors.lightGray};
+  color: ${COLORS.LIGHT_GRAY};
 `;
-
 
 export const ProfileIndicators = styled.div`
   width: 100%;
@@ -96,7 +100,7 @@ export const ProfileIndicators = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  border-top: 1px solid ${colors.background};
+  border-top: 1px solid ${COLORS.BACKGROUND};
   padding: 15px;
   padding-bottom: 0;
   margin-top: 5px;
@@ -112,19 +116,19 @@ export const Indicator = styled.div`
 
   &:hover {
     p {
-      color: ${colors.pinkHover};
+      color: ${COLORS.PINK_HOVER};
     }
   }
 `;
 
 export const IndicatorData = styled.p`
-  transition: .25s;
-  color: ${colors.brightWhite};
+  transition: 0.25s;
+  color: ${COLORS.BRIGHT_WHITE};
   font-size: 24px;
 `;
 
 export const IndicatorText = styled.p`
-  transition: .25s;
-  color: ${colors.lightGray};
+  transition: 0.25s;
+  color: ${COLORS.LIGHT_GRAY};
   font-size: 16px;
 `;

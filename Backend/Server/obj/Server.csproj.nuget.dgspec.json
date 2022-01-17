@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Applications/MyFiles/Development/Web/Conversik - Social Media App/Backend/Server/Server.csproj": {}
+    "/Applications/MyFiles/Development/Web/Eventik - Online Events App/Backend/Server/Server.csproj": {}
   },
   "projects": {
-    "/Applications/MyFiles/Development/Web/Conversik - Social Media App/Backend/Server/Server.csproj": {
+    "/Applications/MyFiles/Development/Web/Eventik - Online Events App/Backend/Server/Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Applications/MyFiles/Development/Web/Conversik - Social Media App/Backend/Server/Server.csproj",
+        "projectUniqueName": "/Applications/MyFiles/Development/Web/Eventik - Online Events App/Backend/Server/Server.csproj",
         "projectName": "Server",
-        "projectPath": "/Applications/MyFiles/Development/Web/Conversik - Social Media App/Backend/Server/Server.csproj",
+        "projectPath": "/Applications/MyFiles/Development/Web/Eventik - Online Events App/Backend/Server/Server.csproj",
         "packagesPath": "/Users/ramilsagidullin/.nuget/packages/",
-        "outputPath": "/Applications/MyFiles/Development/Web/Conversik - Social Media App/Backend/Server/obj/",
+        "outputPath": "/Applications/MyFiles/Development/Web/Eventik - Online Events App/Backend/Server/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/ramilsagidullin/.nuget/NuGet/NuGet.Config"
@@ -46,9 +46,15 @@
               "target": "Package",
               "version": "[5.0.9, )"
             },
-            "MySql.EntityFrameworkCore": {
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
-              "version": "[5.0.5, )"
+              "version": "[5.0.9, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[5.0.7, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
@@ -73,7 +79,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/Users/ramilsagidullin/.dotnet/sdk/5.0.103/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/Cellar/dotnet/5.0.207/libexec/sdk/5.0.207/RuntimeIdentifierGraph.json"
         }
       }
     }

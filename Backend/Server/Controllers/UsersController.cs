@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -41,12 +42,28 @@ namespace Server.Controllers {
             return Ok(response);
         }
 
-        [Authorize]
         [HttpPost("logout")]
         public async Task<ActionResult> Logout() {
             var refreshToken = ClearTokenCookie();
             var response = await _userServices.Logout(refreshToken);
 
+            return Ok(response);
+        }
+        
+        [HttpPost("verify")]
+        public async Task<ActionResult<AuthResponse>> Verify(User user) {
+            var response = await _userServices.Verify(user);
+
+            if (response == null) return BadRequest("Пользователь с таким логином уже существует!");
+
+            SetTokenCookie(response.RefreshToken);
+            
+            return Ok(response);
+        }
+
+        [HttpPost]
+        public ActionResult<List<User>> GetPeople(PeopleRequest peopleRequest) {
+            var response = _userServices.GetPeople(peopleRequest);
             return Ok(response);
         }
 

@@ -1,38 +1,41 @@
-import { ACTIONS } from "../../constants/redux";
-import { IUser } from "../../models/IUser";
-import { GAction } from "../../types/reduxTypes";
+import { IUser } from '../../models/IUser';
+import { GAction } from '../../types/reduxTypes';
+import { AUTH_ACTIONS } from './constants';
 
 interface IAuthState {
-  isAuth: boolean,
-  user: IUser,
-  isLoading: boolean,
-  hasError: boolean
-};
+  user: IUser;
+  isAuthenticated: boolean;
+  isAuthLoading: boolean;
+  isTokenCheckLoading: boolean;
+  hasError: boolean;
+}
 
 const initialState: IAuthState = {
-  isAuth: false,
   user: {} as IUser,
-  isLoading: false,
-  hasError: false
+  isAuthenticated: false,
+  isAuthLoading: false,
+  isTokenCheckLoading: false,
+  hasError: false,
 };
 
-type Action = 
-  GAction<ACTIONS.REQUEST_DATA | ACTIONS.REQUEST_END | ACTIONS.REJECT_DATA> |
-  GAction<ACTIONS.RECEIVE_DATA, { isAuth: boolean, user: IUser }>;
+type Action =
+  | GAction<
+      AUTH_ACTIONS.REQUEST_DATA | AUTH_ACTIONS.REQUEST_END | AUTH_ACTIONS.REJECT_DATA | AUTH_ACTIONS.CHECK_TOKEN
+    >
+  | GAction<AUTH_ACTIONS.RECEIVE_DATA, { isAuthenticated: boolean; user: IUser }>;
 
-export default (
-  state = initialState,
-  action: Action
-): IAuthState => {
+export default (state = initialState, action: Action): IAuthState => {
   switch (action.type) {
-    case ACTIONS.REQUEST_DATA:
-      return { ...state, isLoading: true };
-    case ACTIONS.RECEIVE_DATA:
-      return { ...state, isAuth: action.payload.isAuth, user: action.payload.user };
-    case ACTIONS.REJECT_DATA:
-      return { ...state, isLoading: false, hasError: true };
-    case ACTIONS.REQUEST_END:
-      return { ...state, isLoading: false, hasError: false };
+    case AUTH_ACTIONS.REQUEST_DATA:
+      return { ...state, isAuthLoading: true };
+    case AUTH_ACTIONS.RECEIVE_DATA:
+      return { ...state, isAuthenticated: action.payload.isAuthenticated, user: action.payload.user };
+    case AUTH_ACTIONS.CHECK_TOKEN:
+      return { ...state, isTokenCheckLoading: true };
+    case AUTH_ACTIONS.REJECT_DATA:
+      return { ...state, isAuthLoading: false, isTokenCheckLoading: false, hasError: true };
+    case AUTH_ACTIONS.REQUEST_END:
+      return { ...state, isAuthLoading: false, isTokenCheckLoading: false, hasError: false };
     default:
       return state;
   }

@@ -1,106 +1,152 @@
-import axios from "axios";
-import { Dispatch } from "redux";
-import { API_URL } from "../../constants/api";
-import { ControllerNames } from "../../constants/controllerNames";
-import { NotificationTypes } from "../../constants/notifications";
-import { getErrorByStatusCode } from "../../helpers/errorUtils";
-import { IAuthResponse } from "../../models/IAuthResponse";
-import { IUser } from "../../models/IUser";
-import AuthService from "../../services/authService";
-import { receiveData, rejectData, requestData, requestEnd } from "../defaultActions";
-import { setNotification, showNotification } from "../Notification/actions";
+import axios from 'axios';
+import { Dispatch } from 'redux';
+import { API_URL } from '../../constants/api';
+import { ControllerNames } from '../../constants/controllerNames';
+import { NotificationTypes } from '../../constants/notifications';
+import { getErrorByStatusCode } from '../../helpers/errorUtils';
+import { IAuthResponse } from '../../models/IAuthResponse';
+import { IUser } from '../../models/IUser';
+import AuthService from '../../services/authService';
+import { setNotification, showNotification } from '../Notification/actions';
+import { AUTH_ACTIONS } from './constants';
 
-export const login = (email: string, password: string) => async (
-  dispatch: Dispatch
-): Promise<void> => {
-  try {
-    dispatch(requestData());
+export const login =
+  (email: string, password: string) =>
+  async (dispatch: Dispatch): Promise<void> => {
+    try {
+      dispatch(requestData());
 
-    const response = await AuthService.login(email, password);
-    localStorage.setItem('token', response.data.accessToken);
+      const response = await AuthService.login(email, password);
 
-    dispatch(receiveData({ isAuth: true, user: response.data.user }));
+      localStorage.setItem('token', response.data.accessToken);
 
-    dispatch(requestEnd());    
-  }
-  catch (e: any) {
-    const statusCode = e.response?.status;
+      dispatch(receiveData({ isAuthenticated: true, user: response.data.user }));
+      dispatch(requestEnd());
+    } catch (e: any) {
+      const statusCode = e.response?.status;
 
-    if (statusCode && statusCode == 400) {
-      dispatch(setNotification(getErrorByStatusCode(statusCode + "/LOGIN"), NotificationTypes.ERROR));
-      dispatch(showNotification());
+      if (statusCode && statusCode == 400) {
+        dispatch(setNotification(getErrorByStatusCode(statusCode + '/LOGIN'), NotificationTypes.ERROR));
+        dispatch(showNotification());
+      }
+
+      dispatch(rejectData());
     }
+  };
 
-    dispatch(rejectData());
-  }
-};
+export const register =
+  (email: string, password: string) =>
+  async (dispatch: Dispatch): Promise<void> => {
+    try {
+      dispatch(requestData());
 
-export const register = (email: string, password: string) => async (
-  dispatch: Dispatch
-): Promise<void> => {
-  try {
-    dispatch(requestData());
-    
-    const response = await AuthService.register(email, password);
-    localStorage.setItem('token', response.data.accessToken);
+      const response = await AuthService.register(email, password);
 
-    dispatch(receiveData({ isAuth: true, user: response.data.user }));
+      localStorage.setItem('token', response.data.accessToken);
 
-    dispatch(requestEnd());    
-  }
-  catch (e: any) {
-    const statusCode = e.response?.status;
+      dispatch(receiveData({ isAuthenticated: true, user: response.data.user }));
+      dispatch(requestEnd());
+    } catch (e: any) {
+      const statusCode = e.response?.status;
 
-    if (statusCode && statusCode == 400) {
-      dispatch(setNotification(getErrorByStatusCode(statusCode + "/REGISTRATION"), NotificationTypes.ERROR));
-      dispatch(showNotification());
+      if (statusCode && statusCode == 400) {
+        dispatch(setNotification(getErrorByStatusCode(statusCode + '/REGISTRATION'), NotificationTypes.ERROR));
+        dispatch(showNotification());
+      }
+
+      dispatch(rejectData());
     }
-    
-    dispatch(rejectData());
-  }
-};
+  };
 
-export const logout = () => async (
-  dispatch: Dispatch
-): Promise<void> => {
-  try {
-    dispatch(requestData());
-    
-    const response = await AuthService.logout();
-    localStorage.removeItem('token');
+export const logout =
+  () =>
+  async (dispatch: Dispatch): Promise<void> => {
+    try {
+      dispatch(requestData());
+      dispatch(checkToken());
 
-    dispatch(receiveData({ isAuth: false, user: {} as IUser }));
+      const response = await AuthService.logout();
 
-    dispatch(requestEnd());    
-  }
-  catch (e) {
-    console.log(e);
-    dispatch(rejectData());
-  }
-};
+      localStorage.removeItem('token');
 
-export const checkAuth = () => async (
-  dispatch: Dispatch
-): Promise<void> => {
-  try {
-    dispatch(requestData());
-    
-    const response = await axios.get<IAuthResponse>(`${API_URL}${ControllerNames.TOKENS}/refresh`, { withCredentials: true });
-    localStorage.setItem('token', response.data.accessToken);
+      dispatch(receiveData({ isAuthenticated: false, user: {} as IUser }));
+      dispatch(requestEnd());
+    } catch (e) {
+      console.log(e);
+      dispatch(rejectData());
+    }
+  };
 
-    dispatch(receiveData({ isAuth: true, user: response.data.user }));
+export const checkAuth =
+  () =>
+  async (dispatch: Dispatch): Promise<void> => {
+    try {
+      dispatch(requestData());
+      dispatch(checkToken());
 
-    dispatch(requestEnd());   
-  }
-  catch (e) {
-    console.log(e);
-    dispatch(rejectData());
-  }
-}
+      const response = await axios.get<IAuthResponse>(`${API_URL}${ControllerNames.TOKENS}/refresh`, {
+        withCredentials: true,
+      });
+
+      localStorage.setItem('token', response.data.accessToken);
+
+      dispatch(receiveData({ isAuthenticated: true, user: response.data.user }));
+      dispatch(requestEnd());
+    } catch (e) {
+      console.log(e);
+      dispatch(rejectData());
+    }
+  };
+
+export const verify =
+  (user: IUser) =>
+  async (dispatch: Dispatch): Promise<void> => {
+    try {
+      dispatch(requestData());
+
+      const response = await AuthService.verify(user);
+
+      localStorage.setItem('token', response.data.accessToken);
+
+      dispatch(receiveData({ isAuthenticated: true, user: response.data.user }));
+      dispatch(requestEnd());
+    } catch (e: any) {
+      const statusCode = e.response?.status;
+
+      if (statusCode && statusCode == 400) {
+        dispatch(setNotification(getErrorByStatusCode(statusCode + '/VERIFY'), NotificationTypes.ERROR));
+        dispatch(showNotification());
+      }
+
+      dispatch(rejectData());
+    }
+  };
+
+const requestData = () => ({
+  type: AUTH_ACTIONS.REQUEST_DATA,
+});
+
+const receiveData = (payload: any) => ({
+  type: AUTH_ACTIONS.RECEIVE_DATA,
+  payload: payload,
+});
+
+const rejectData = () => ({
+  type: AUTH_ACTIONS.REJECT_DATA,
+});
+
+const requestEnd = () => ({
+  type: AUTH_ACTIONS.REQUEST_END,
+});
+
+const checkToken = () => ({
+  type: AUTH_ACTIONS.CHECK_TOKEN,
+});
 
 export default {
   login,
   register,
   logout,
-  checkAuth
+  checkAuth,
+  verify,
 };

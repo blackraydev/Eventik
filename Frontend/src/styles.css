@@ -9,3 +9,7 @@
   border: none;
   font-family: 'Rubik', sans-serif;
 }
+
+body {
+  background: rgb(19, 19, 26);
+}

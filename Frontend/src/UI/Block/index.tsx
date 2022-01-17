@@ -6,18 +6,11 @@ interface IBlockProps {
   outerText?: string;
   innerText?: string;
   authTypeHandler?: () => void;
-  children: any
+  children: any;
 }
 
-const Block: React.FC<IBlockProps> = ({
-  title,
-  description,
-  outerText,
-  innerText,
-  authTypeHandler,
-  children
-}) => {
-  return(
+const Block: React.FC<IBlockProps> = ({ title, description, outerText, innerText, authTypeHandler, children }) => {
+  return (
     <UI.BlockHolder>
       <UI.Block>
         <UI.Title>{title}</UI.Title>
@@ -26,9 +19,7 @@ const Block: React.FC<IBlockProps> = ({
       </UI.Block>
       <UI.OuterText>
         {outerText}
-        <UI.InnerText onClick={authTypeHandler}>
-          {innerText}
-        </UI.InnerText>
+        <UI.InnerText onClick={authTypeHandler}>{innerText}</UI.InnerText>
       </UI.OuterText>
     </UI.BlockHolder>
   );

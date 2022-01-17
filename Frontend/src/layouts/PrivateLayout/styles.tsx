@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import colors from '../../constants/colors';
+import { COLORS } from '../../constants/colors';
 
 export const Layout = styled.div`
   width: 100%;
@@ -8,7 +8,7 @@ export const Layout = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  background: ${colors.background};
+  background: ${COLORS.BACKGROUND};
 `;
 
 export const LeftPart = styled.div`
@@ -42,4 +42,12 @@ export const MainContent = styled.div`
   justify-content: center;
   align-items: flex-start;
   width: 100%;
+`;
+
+export const VideoWrapper = styled.div`
+  background: white;
+`;
+
+export const Video = styled.video`
+  border-radius: 50px;
 `;

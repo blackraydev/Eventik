@@ -3,10 +3,8 @@ import { Dispatch } from 'redux';
 import validator from 'validator';
 import { useHistory } from 'react-router';
 import { PublicRoutes } from '../../../constants/routeNames';
-import { useActions } from '../../../hooks/useActions';
 import { ChangeEvent } from '../../../types/eventTypes';
 import { NotificationType } from '../../../types/notificationType';
-import { INotification } from '../../../models/INotification';
 import { CLIENT_ERRORS } from '../../../constants/errors';
 import { NotificationTypes } from '../../../constants/notifications';
 import Block from '../../../UI/Block';
@@ -20,7 +18,7 @@ interface IRegistrationBlockProps {
   showNotification: () => {};
   closeNotification: () => {};
   isAuthLoading: boolean;
-};
+}
 
 const RegistrationBlock: React.FC<IRegistrationBlockProps> = ({
   register,
@@ -30,9 +28,36 @@ const RegistrationBlock: React.FC<IRegistrationBlockProps> = ({
   isAuthLoading,
 }) => {
   const history = useHistory();
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [repeatedPassword, setRepeatedPassword] = useState<string>("");
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [repeatedPassword, setRepeatedPassword] = useState<string>('');
+
+  const setEmailHandler = useCallback(
+    (e: ChangeEvent) => {
+      setEmail(e.currentTarget.value);
+    },
+    [email]
+  );
+
+  const setPasswordHandler = useCallback(
+    (e: ChangeEvent) => {
+      setPassword(e.currentTarget.value);
+    },
+    [password]
+  );
+
+  const setRepeatedPasswordHandler = useCallback(
+    (e: ChangeEvent) => {
+      setRepeatedPassword(e.currentTarget.value);
+    },
+    [repeatedPassword]
+  );
+
+  const showWarning = useCallback((warningMessage): boolean => {
+    setNotification(warningMessage, NotificationTypes.WARNING);
+    showNotification();
+    return true;
+  }, []);
 
   const isFormHasErrors = useCallback((): boolean => {
     if (!validator.isEmail(email)) {
@@ -49,30 +74,19 @@ const RegistrationBlock: React.FC<IRegistrationBlockProps> = ({
 
     closeNotification();
     return false;
-  }, [
-    email,
-    password,
-    repeatedPassword,
-    closeNotification
-  ]);
-
-  const showWarning = useCallback((warningMessage): boolean => {
-    setNotification(warningMessage, NotificationTypes.WARNING);
-    showNotification();
-    return true;
-  }, [setNotification, showNotification]);
+  }, [email, password, repeatedPassword]);
 
   const registrationHandler = useCallback((): void => {
     if (!isFormHasErrors()) {
       register(email, password);
     }
-  }, [isFormHasErrors, register, email, password, repeatedPassword]);
-  
-  const authTypeHandler = useCallback((): void => {
-    history.push(PublicRoutes.LOGIN)
-  }, [history]);
+  }, [email, password, repeatedPassword]);
 
-  return(
+  const authTypeHandler = useCallback((): void => {
+    history.push(PublicRoutes.LOGIN);
+  }, []);
+
+  return (
     <Block
       title="Create your account"
       description="Enter your credentials to continue."
@@ -80,31 +94,22 @@ const RegistrationBlock: React.FC<IRegistrationBlockProps> = ({
       innerText="Sign in"
       authTypeHandler={authTypeHandler}
     >
-      <Input
-        value={email}
-        onChange={(e: ChangeEvent) => setEmail(e.currentTarget.value)}
-        label="Login"
-        placeholder="Email or nickname"
-      />
+      <Input value={email} onChange={setEmailHandler} label="Email" placeholder="Email or nickname" />
       <Input
         value={password}
-        onChange={(e: ChangeEvent) => setPassword(e.currentTarget.value)}
+        onChange={setPasswordHandler}
         label="Password"
         placeholder="Password"
         type="password"
       />
       <Input
         value={repeatedPassword}
-        onChange={(e: ChangeEvent) => setRepeatedPassword(e.currentTarget.value)}
+        onChange={setRepeatedPasswordHandler}
         label="Repeat Password"
         placeholder="Password"
         type="password"
       />
-      {
-        isAuthLoading
-          ? <LoadingSpinner />
-          : <Button value="Create new account" onClick={registrationHandler}/>
-      }
+      {isAuthLoading ? <LoadingSpinner /> : <Button value="Create new account" onClick={registrationHandler} />}
     </Block>
   );
 };

@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import colors from '../../constants/colors';
+import { COLORS } from '../../constants/colors';
 import { getIconColorByType } from '../../helpers/notificationIconsUtils';
 import { NotificationType } from '../../types/notificationType';
 
@@ -19,9 +19,9 @@ export const IconHolder = styled.div`
   }
 `;
 
-export const Notification = styled.div`
+export const Notification = styled.div<INotificationStyleProps>`
   cursor: pointer;
-  transition: .25s;
+  transition: 0.25s;
   position: absolute;
   top: 15px;
   right: 15px;
@@ -33,11 +33,11 @@ export const Notification = styled.div`
   max-width: 350px;
   padding: 15px;
   border-radius: 20px;
-  color: ${colors.white};
-  background-color: ${colors.secondary};
+  color: ${COLORS.WHITE};
+  background-color: ${COLORS.SECONDARY};
 
   &:hover {
-    background-color: ${colors.notificationHover}
+    background-color: ${COLORS.NOTIFICATION_HOVER};
   }
 
   ${({ type }: INotificationStyleProps) => css`
@@ -46,7 +46,7 @@ export const Notification = styled.div`
 
   ${IconHolder} {
     ${({ type }: INotificationStyleProps) => css`
-      fill: ${getIconColorByType(type)}
+      fill: ${getIconColorByType(type)};
     `}
   }
 `;

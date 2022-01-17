@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import colors from '../../../../constants/colors';
+import { COLORS } from '../../../../constants/colors';
 
 export const UserCell = styled.div`
+  transition: 0.2s;
   cursor: pointer;
   display: flex;
   justify-content: flex-start;
@@ -10,13 +11,28 @@ export const UserCell = styled.div`
   width: 300px;
   padding: 25px;
   border-radius: 25px;
-  background-color: ${colors.secondary};
+  background-color: ${COLORS.SECONDARY};
+
+  &:hover {
+    background-color: ${COLORS.LIGHT_SECONDARY};
+  }
 `;
 
-export const ProfilePicture = styled.img`
+export const Avatar = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: ${COLORS.GRAY};
   width: 60px;
   height: 60px;
   border-radius: 15px;
+`;
+
+export const AvatarImg = styled.img``;
+
+export const AvatarText = styled.p`
+  color: ${COLORS.WHITE};
+  font-size: 24px;
 `;
 
 export const UserData = styled.div`
@@ -29,9 +45,9 @@ export const UserData = styled.div`
 `;
 
 export const UserName = styled.p`
-  color: ${colors.white};
+  color: ${COLORS.WHITE};
 `;
 
 export const UserStatus = styled.p`
-  color: ${colors.gray};
+  color: ${COLORS.GRAY};
 `;

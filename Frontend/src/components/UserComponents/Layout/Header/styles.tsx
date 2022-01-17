@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import colors from '../../../../constants/colors';
+import { COLORS } from '../../../../constants/colors';
 
 export const Header = styled.div`
   display: flex;
@@ -9,8 +9,8 @@ export const Header = styled.div`
   height: 75px;
   padding: 25px;
   margin-bottom: 25px;
-  background: ${colors.secondary};
-  color: ${colors.white};
+  background: ${COLORS.SECONDARY};
+  color: ${COLORS.WHITE};
   border-bottom-left-radius: 25px;
   border-bottom-right-radius: 25px;
 `;
@@ -56,6 +56,6 @@ export const Logo = styled.div`
 `;
 
 export const AppTitle = styled.div`
-  font-size: 18px;
+  font-size: 24px;
   margin-left: 10px;
 `;

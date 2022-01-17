@@ -2,38 +2,52 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { privateRoutes, publicRoutes } from '../../router';
-import { authCheckSelector, authLoadingSelector } from '../../store/Auth/selectors';
+import { authCheckSelector, authTokenLoadingSelector, authUserSelector } from '../../store/Auth/selectors';
 import { useActions } from '../../hooks/useActions';
+import LoadingSpinner from '../../UI/LoadingSpinner';
 import { PrivateRoutes, PublicRoutes } from '../../constants/routeNames';
+import VerifyPage from '../../pages/PublicPages/VerifyPage';
 
 const Router: React.FC = () => {
   const { checkAuth } = useActions();
-  const isAuth = useSelector(authCheckSelector);
-  const isLoading = useSelector(authLoadingSelector);
+  const user = useSelector(authUserSelector);
+  const isAuthenticated = useSelector(authCheckSelector);
+  const isTokenCheckLoading = useSelector(authTokenLoadingSelector);
+  const isUserVerified = user.isVerified;
 
   useEffect(() => {
-      checkAuth();
+    checkAuth();
   }, []);
 
-  // if (isLoading) {
-  //   return <div>Загрузка...</div>
-  // }
+  if (isTokenCheckLoading) {
+    return <LoadingSpinner fullScreen />;
+  }
 
-  return(
+  const renderRoutes = () => {
+    if (isAuthenticated && isUserVerified) {
+      return privateRoutes.map((route, index) => <Route key={index} {...route} />);
+    } else if (!isAuthenticated) {
+      return publicRoutes.map((route, index) => <Route key={index} {...route} />);
+    }
+
+    return <Route path={PublicRoutes.VERIFY} component={VerifyPage} exact />;
+  };
+
+  const renderRedirect = () => {
+    if (isAuthenticated && isUserVerified) {
+      return <Redirect to={PrivateRoutes.PROFILE} />;
+    } else if (!isAuthenticated) {
+      return <Redirect to={PublicRoutes.LOGIN} />;
+    }
+
+    return <Redirect to={PublicRoutes.VERIFY} />;
+  };
+
+  return (
     <BrowserRouter>
       <Switch>
-        {
-          isAuth
-          ? privateRoutes.map((route, index) => <Route key={index} {...route}/>)
-          : publicRoutes.map((route, index) => <Route key={index} {...route}/>)
-        }
-        <Route path="/">
-          {
-            isAuth
-            ? <Redirect to={PrivateRoutes.PROFILE}/>
-            : <Redirect to={PublicRoutes.LOGIN}/>
-          }
-        </Route>
+        {renderRoutes()}
+        <Route path="/">{renderRedirect()}</Route>
       </Switch>
     </BrowserRouter>
   );

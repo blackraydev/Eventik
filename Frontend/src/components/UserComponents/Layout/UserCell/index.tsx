@@ -1,16 +1,26 @@
 import React from 'react';
 import profilePhoto from '../../../../assets/imgs/profilePhoto.jpg';
+import { IUser } from '../../../../models/IUser';
 import * as UI from './styles';
 
-interface IUserCellProps {}
+interface IUserCellProps {
+  user: IUser;
+}
 
-const UserCell: React.FC<IUserCellProps> = () => {
-  return(
+const UserCell: React.FC<IUserCellProps> = ({ user }) => {
+  return (
     <UI.UserCell>
-      <UI.ProfilePicture src={profilePhoto}/>
+      <UI.Avatar>
+        <UI.AvatarText>
+          {user.name[0]}
+          {user.lastName[0]}
+        </UI.AvatarText>
+      </UI.Avatar>
       <UI.UserData>
-        <UI.UserName>Ramil Sagidullin</UI.UserName>
-        <UI.UserStatus>@blackray</UI.UserStatus>
+        <UI.UserName>
+          {user.name} {user.lastName}
+        </UI.UserName>
+        <UI.UserStatus>@{user.login}</UI.UserStatus>
       </UI.UserData>
     </UI.UserCell>
   );

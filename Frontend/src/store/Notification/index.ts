@@ -1,31 +1,28 @@
-import { ACTIONS } from "../../constants/redux";
-import { INotification } from "../../models/INotification";
-import { GAction } from "../../types/reduxTypes";
+import { INotification } from '../../models/INotification';
+import { GAction } from '../../types/reduxTypes';
+import { NOTIFICATION_ACTIONS } from './constants';
 
 interface INotificationState {
   notification: INotification;
-  toShow: boolean
-};
+  toShow: boolean;
+}
 
 const initialState: INotificationState = {
   notification: {} as INotification,
-  toShow: false
+  toShow: false,
 };
 
-type Action = 
-  GAction<ACTIONS.SHOW_NOTIFICATION | ACTIONS.CLOSE_NOTIFICATION> |
-  GAction<ACTIONS.SET_NOTIFICATION, INotification>;
+type Action =
+  | GAction<NOTIFICATION_ACTIONS.SHOW_NOTIFICATION | NOTIFICATION_ACTIONS.CLOSE_NOTIFICATION>
+  | GAction<NOTIFICATION_ACTIONS.SET_NOTIFICATION, INotification>;
 
-export default (
-  state = initialState,
-  action: Action
-): INotificationState => {
+export default (state = initialState, action: Action): INotificationState => {
   switch (action.type) {
-    case ACTIONS.SHOW_NOTIFICATION:
-      return { ...state, toShow: true }
-    case ACTIONS.SET_NOTIFICATION:
+    case NOTIFICATION_ACTIONS.SHOW_NOTIFICATION:
+      return { ...state, toShow: true };
+    case NOTIFICATION_ACTIONS.SET_NOTIFICATION:
       return { ...state, notification: action.payload };
-    case ACTIONS.CLOSE_NOTIFICATION:
+    case NOTIFICATION_ACTIONS.CLOSE_NOTIFICATION:
       return { ...state, toShow: false };
     default:
       return state;
